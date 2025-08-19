@@ -1,10 +1,12 @@
+# Documentation: https://github.com/microsoftgraph/msgraph-sdk-python/blob/main/README.md
 # Import required libraries
-from azure.identity import ClientSecretCredential
-from msgraph import GraphServiceClient
-from dotenv import load_dotenv
+import asyncio
 import requests
 import os
 import json
+from azure.identity import ClientSecretCredential
+from msgraph import GraphServiceClient
+from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
@@ -108,4 +110,16 @@ with open("./jsons/entra_users.json", "w") as f:
     print("Writing users.json")
     f.write(json.dumps(users))
 
+users_sdk = client.users.get()
+print(type(users_sdk))
+
+async def get_users():
+    users = await users_sdk
+    print("Returned by get(): ", type(users))
+    print("users.value: ", type(users.value))
+    print("users.value[0]: ", type(users.value[0]))
+    for user in users.value:
+        print(user.display_name)
+
+users = asyncio.run(get_users())
 print("------------------Complete------------------")
