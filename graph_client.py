@@ -61,8 +61,8 @@ response_root = requests.get(
     f"https://graph.microsoft.com/v1.0/drives/{drive_id}/root/children",
     headers={"Authorization": f"Bearer {token}"}
 ).json()
-print(type(response_root))
 with open ("./jsons/response_root.json", "w", encoding="utf-8") as f:
+    print("Writing response_root.json")
     f.write(json.dumps(response_root))
 
 # Get child folder "Benchmarking Data" information
@@ -72,19 +72,21 @@ response_child = requests.get(
     headers={"Authorization": f"Bearer {token}"}
 ).json()
 with open ("./jsons/response_child.json", "w", encoding="utf-8") as f:
+    print("Writing response_child.json")
     f.write(json.dumps(response_child))
 
 download_url = None
 for item in response_root.get('value', []):
     if item.get('name') == 'test.csv':
         download_url = item.get('@microsoft.graph.downloadUrl')
-        print("Download URL", download_url)
         break
 if not download_url:
     print("test.csv not found.")
 if download_url:
     file_response = requests.get(download_url)
     with open("./downloads/test.csv", "wb") as f:
+        print("Download URL response: ", type(file_response))
+        print("Downloading test.txt")
         f.write(file_response.content)
     print("Downloaded test.csv successfully.")
 
@@ -95,6 +97,7 @@ file_info = requests.get(
     headers={f"Authorization": f"Bearer {token}"}
 ).json()
 with open("./jsons/file_info.json", "w") as f:
+    print("Writing file_info.json")
     f.write(json.dumps(file_info))
 
 users = requests.get(
@@ -102,6 +105,7 @@ users = requests.get(
     headers={f"Authorization": f"Bearer {token}"}
 ).json()
 with open("./jsons/entra_users.json", "w") as f:
+    print("Writing users.json")
     f.write(json.dumps(users))
 
 print("------------------Complete------------------")
