@@ -96,4 +96,12 @@ file_info = requests.get(
 ).json()
 with open("./jsons/file_info.json", "w") as f:
     f.write(json.dumps(file_info))
-print("Complete")
+
+users = requests.get(
+    "https://graph.microsoft.com/v1.0/users",
+    headers={f"Authorization": f"Bearer {token}"}
+).json()
+with open("./jsons/entra_users.json", "w") as f:
+    f.write(json.dumps(users))
+
+print("------------------Complete------------------")
