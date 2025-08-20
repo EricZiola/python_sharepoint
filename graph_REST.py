@@ -1,4 +1,7 @@
-# Documentation: https://github.com/microsoftgraph/msgraph-sdk-python/blob/main/README.md
+"""
+This module uses standard REST protocols and the requests package to 
+interact with SharePoint.
+"""
 # Import required libraries
 import asyncio
 import requests
@@ -26,10 +29,6 @@ credential = ClientSecretCredential(
     client_id=AZURE_CLIENT_ID,
     client_secret=AZURE_CLIENT_SECRET
 )
-
-# Create a Microsoft Graph client using the credential.
-# This client will be used to make API calls to Microsoft 365 services.
-client = GraphServiceClient(credential)
 
 # Request an access token object from Azure for Microsoft Graph.
 # This token is needed to authenticate API requests.
@@ -110,16 +109,4 @@ with open("./jsons/entra_users.json", "w") as f:
     print("Writing users.json")
     f.write(json.dumps(users))
 
-users_sdk = client.users.get()
-print(type(users_sdk))
-
-async def get_users():
-    users = await users_sdk
-    print("Returned by get(): ", type(users))
-    print("users.value: ", type(users.value))
-    print("users.value[0]: ", type(users.value[0]))
-    for user in users.value:
-        print(user.display_name)
-
-users = asyncio.run(get_users())
 print("------------------Complete------------------")
