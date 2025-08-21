@@ -3,7 +3,6 @@ This module uses standard REST protocols and the requests package to
 interact with SharePoint.
 """
 # Import required libraries
-import asyncio
 import requests
 import os
 import json
